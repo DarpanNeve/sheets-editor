@@ -10,13 +10,10 @@ class UpdateButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = HomePage.controller;
     return SizedBox(
-      height: 50.h,
+      height: 54.h,
       child: Obx(() => ElevatedButton(
             onPressed:
                 controller.isLoading.value ? null : controller.updateSheet,
-            style: ElevatedButton.styleFrom(
-              disabledBackgroundColor: Colors.grey[300],
-            ),
             child: controller.isLoading.value
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -30,7 +27,7 @@ class UpdateButton extends StatelessWidget {
                           strokeWidth: 3.w,
                         ),
                       ),
-                      SizedBox(width: 12.w),
+                      SizedBox(width: 16.w),
                       Text(
                         "Updating...",
                         style: TextStyle(
@@ -43,10 +40,10 @@ class UpdateButton extends StatelessWidget {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.cloud_upload, size: 20.sp),
-                      SizedBox(width: 8.w),
+                      Icon(Icons.cloud_upload_outlined, size: 22.sp),
+                      SizedBox(width: 12.w),
                       Text(
-                        "Update",
+                        "Update to Cloud",
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,

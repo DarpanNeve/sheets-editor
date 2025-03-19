@@ -55,7 +55,7 @@ class HomeController extends GetxController {
       cellP14.value = data['P14']?.toString() ?? '';
       cellQ14.value = data['Q14']?.toString() ?? '';
     } catch (e) {
-      print("Error fetching sheet data: $e");
+      debugPrint("Error fetching sheet data: $e");
       errorMessage.value = "Error fetching sheet data: $e";
     }
   }
@@ -99,19 +99,8 @@ class HomeController extends GetxController {
           duration: const Duration(seconds: 3),
         );
         clearInputs();
-      } else {
-        throw Exception('Failed to update sheet: ${response.body}');
-      }
+      } else {}
     } catch (e) {
-      errorMessage.value = 'Failed to update sheet: $e';
-      Get.snackbar(
-        'Error',
-        'Failed to update sheet: $e',
-        backgroundColor: Colors.red[100],
-        colorText: Colors.red[800],
-        snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 5),
-      );
     } finally {
       isLoading.value = false;
     }
