@@ -12,50 +12,49 @@ class UpdateButton extends StatelessWidget {
     return SizedBox(
       height: 50.h,
       child: Obx(() => ElevatedButton(
-        onPressed: controller.isLoading.value
-            ? null
-            : controller.updateSheet,
-        style: ElevatedButton.styleFrom(
-          disabledBackgroundColor: Colors.grey[300],
-        ),
-        child: controller.isLoading.value
-            ? Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 24.w,
-              height: 24.h,
-              child: CircularProgressIndicator(
-                valueColor:
-                const AlwaysStoppedAnimation<Color>(Colors.white),
-                strokeWidth: 3.w,
-              ),
+            onPressed:
+                controller.isLoading.value ? null : controller.updateSheet,
+            style: ElevatedButton.styleFrom(
+              disabledBackgroundColor: Colors.grey[300],
             ),
-            SizedBox(width: 12.w),
-            Text(
-              "Updating...",
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        )
-            : Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.cloud_upload, size: 20.sp),
-            SizedBox(width: 8.w),
-            Text(
-              "Update to cloud",
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      )),
+            child: controller.isLoading.value
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 24.w,
+                        height: 24.h,
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              const AlwaysStoppedAnimation<Color>(Colors.white),
+                          strokeWidth: 3.w,
+                        ),
+                      ),
+                      SizedBox(width: 12.w),
+                      Text(
+                        "Updating...",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.cloud_upload, size: 20.sp),
+                      SizedBox(width: 8.w),
+                      Text(
+                        "Update",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+          )),
     );
   }
 }

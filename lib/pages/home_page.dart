@@ -8,7 +8,7 @@ import '../widgets/update_button.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  // Instantiate the controllers using GetX dependency injection.
+  // Instantiate the controller using GetX dependency injection.
   static final HomeController controller = Get.put(HomeController());
 
   @override
@@ -34,9 +34,9 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Expanded(
-                child: SingleChildScrollView(child: BedInfoForm()),
-              ),
+                  child: SingleChildScrollView(child: BedInfoForm())),
               _buildStatusMessages(),
+              _buildSheetParameters(),
               const UpdateButton(),
             ],
           ),
@@ -90,6 +90,36 @@ class HomePage extends StatelessWidget {
       } else {
         return const SizedBox();
       }
+    });
+  }
+
+  Widget _buildSheetParameters() {
+    return Obx(() {
+      return Container(
+        margin: EdgeInsets.symmetric(vertical: 16.h),
+        padding: EdgeInsets.all(12.w),
+        decoration: BoxDecoration(
+          color: Colors.blue[50],
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.blue[200]!),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Tractor speed in kmph: ${controller.cellB14.value}"),
+            Text(
+                "Time(sec) required to complete 100% task: ${controller.cellK14.value}"),
+            Text(
+                "Time(sec) required to sow 1 sapling: ${controller.cellN14.value}"),
+            Text(
+                "Time(sec) required to sow complete tray: ${controller.cellO14.value}"),
+            Text(
+                "How many sapling to be planted in 1 acre: ${controller.cellP14.value}"),
+            Text(
+                "How much time(min) is  required to plant the sapling in 1acre: ${controller.cellQ14.value}"),
+          ],
+        ),
+      );
     });
   }
 }

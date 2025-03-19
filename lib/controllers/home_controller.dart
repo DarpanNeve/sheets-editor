@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+
 import '../services/sheet_service.dart';
 
 class HomeController extends GetxController {
+  // Text editing controllers for input fields.
   final widthController = TextEditingController();
   final lengthController = TextEditingController();
   final distanceController = TextEditingController();
@@ -13,22 +16,52 @@ class HomeController extends GetxController {
 
   final SheetService _sheetService = SheetService();
 
+  // Reactive variables to hold the six sheet cells.
+  final RxString cellB14 = ''.obs;
+  final RxString cellK14 = ''.obs;
+  final RxString cellN14 = ''.obs;
+  final RxString cellO14 = ''.obs;
+  final RxString cellP14 = ''.obs;
+  final RxString cellQ14 = ''.obs;
+
+  Timer? _timer;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // Start periodic fetch every 5 seconds.
+    _timer = Timer.periodic(const Duration(seconds: 5), (_) {
+      fetchSheetParameters();
+    });
+  }
+
   @override
   void onClose() {
+    _timer?.cancel();
     widthController.dispose();
     lengthController.dispose();
     distanceController.dispose();
     super.onClose();
   }
 
-  void clearInputs() {
-    widthController.clear();
-    lengthController.clear();
-    distanceController.clear();
+  /// Fetches the latest sheet data and updates the reactive variables.
+  Future<void> fetchSheetParameters() async {
+    try {
+      final data = await _sheetService.getSheetData();
+      cellB14.value = data['B14']?.toString() ?? '';
+      cellK14.value = data['K14']?.toString() ?? '';
+      cellN14.value = data['N14']?.toString() ?? '';
+      cellO14.value = data['O14']?.toString() ?? '';
+      cellP14.value = data['P14']?.toString() ?? '';
+      cellQ14.value = data['Q14']?.toString() ?? '';
+    } catch (e) {
+      print("Error fetching sheet data: $e");
+      errorMessage.value = "Error fetching sheet data: $e";
+    }
   }
 
+  /// Updates the sheet with input values.
   Future<void> updateSheet() async {
-    // Parse input values.
     double? bedWidth = double.tryParse(widthController.text);
     double? bedLength = double.tryParse(lengthController.text);
     double? plantDistance = double.tryParse(distanceController.text);
@@ -49,7 +82,6 @@ class HomeController extends GetxController {
       errorMessage.value = '';
       isUpdateSuccessful.value = false;
 
-      // Call the service to update the sheet.
       final response = await _sheetService.updateSheet(
         bedWidth: bedWidth,
         bedLength: bedLength,
@@ -83,5 +115,11 @@ class HomeController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void clearInputs() {
+    widthController.clear();
+    lengthController.clear();
+    distanceController.clear();
   }
 }
